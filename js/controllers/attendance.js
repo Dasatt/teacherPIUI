@@ -22,23 +22,33 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', function($scop
     // $scope.activeClass=true;
     
     $scope.loadActiveClass = function () {
-      $http.get(baseUrl+'active/classes').then(
+      $http.get(baseUrl+'attendance/activeclass/').then(
         function (success_response){
           $scope.httpStatus = true;
-          if (true){
+          if (success_response.data){
             $scope.activeClass = true;
+            $scope.courseCode = success_response.data;
+            //call an api here to get course data
           }else {
             $scope.addAlert('warning', 'No currently active classes');
           }
         },
         function (error_response){
           $scope.httpStatus = true;
-          // $scope.activeClass = true;
           $scope.addAlert('danger', 'Server Error');
         });
 
     };
     $scope.loadActiveClass();
+
+    $scope.attend = function (){
+        //call attend api for logged in student
+
+    };
+
+    $scope.userHistory = function (){
+      // get student history on classes attended, just for better user interaction
+    }
 
 
 

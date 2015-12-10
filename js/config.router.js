@@ -17,8 +17,8 @@ angular.module('app')
       function ($stateProvider,   $urlRouterProvider) {
           
           $urlRouterProvider
-              // .otherwise('/access/signin');
-              .otherwise('/app/student/dashboard');              
+              .otherwise('/access/signin');
+              // .otherwise('/app/student/dashboard');              
           $stateProvider              
               .state('access', {
                   url: '/access',
@@ -64,6 +64,9 @@ angular.module('app')
               .state('app.student.dashboard', {
                   url: '/dashboard',
                   templateUrl: 'tpl/student/student_dashboard.html',
+                  access: {
+                    requiresLogin: true
+                  },
                   resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){

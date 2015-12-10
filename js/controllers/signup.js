@@ -15,17 +15,23 @@ app.controller('SignupFormController', ['$scope', '$http', '$state', function($s
     $scope.signUp = function() {
       $http.post(baseUrl+'student/register', $scope.user).then(
         function (success_response){
+          console.log(success_response.data)
           if (success_response.statusText == 'CREATED') {
             $state.go('access.signin');
-            // $scope.addAlert('success','Account succesfully created, Sign in to get access');            
-          }else{
-            $scope.addAlert('danger','Error messages here');
-          };
+          }
         },
         function (error_response){
-          $scope.addAlert('danger','Server Error');
-
+          if (error_response.status == 500){
+            $scope.addAlert('danger','Server Error');
+          }else if (error_response.status == 400) {
+            for (var key in error_response.data){
+              for (var item in error_response.data[key]){
+                $scope.addAlert('danger',error_response.data[key][item]);
+              }
+            }
+          } else{
+            $scope.addAlert('danger','Ooops! something went wrong. Please retry');
+          };        
         });
-
     };
-  }]);
+}]);
