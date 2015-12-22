@@ -13,14 +13,16 @@ app.controller('SignupFormController', ['$scope', '$http', '$state', function($s
     };
 
     $scope.signUp = function() {
-      $http.post(baseUrl+'student/register', $scope.user).then(
+      $http.post(baseUrl+'student/register/', $scope.user).then(
         function (success_response){
-          console.log(success_response.data)
           if (success_response.statusText == 'CREATED') {
             $state.go('access.signin');
           }
         },
         function (error_response){
+          for (var i = $scope.alerts.length - 1; i >= 0; i--) {
+            $scope.closeAlert(i)
+          };
           if (error_response.status == 500){
             $scope.addAlert('danger','Server Error');
           }else if (error_response.status == 400) {

@@ -28,4 +28,11 @@ angular.module('app')
     $translateProvider.preferredLanguage('en');
     // Tell the module to store the language in the local storage
     $translateProvider.useLocalStorage();
-  }]);
+  }])
+  // .config(['$cookieStore','$http', function($cookieStore,$http){
+  //   teacherpi_cookie = ($cookieStore.get('teacherpi'));
+  //   $http.defaults.headers.common.Authorization = "Token "+ teacherpi_cookie['user_token'];
+  //   console.log(teacherpi_cookie['user_token']);
+
+  // }])
+  ;

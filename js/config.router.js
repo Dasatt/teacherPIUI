@@ -64,15 +64,15 @@ angular.module('app')
               .state('app.student.dashboard', {
                   url: '/dashboard',
                   templateUrl: 'tpl/student/student_dashboard.html',
-                  access: {
-                    requiresLogin: true
-                  },
+                  // access: {
+                  //   requiresLogin: true
+                  // },
                   resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
                         return uiLoad.load([
                           'js/controllers/chart.js',
-                          'js/controllers/dashboard.js'
+                          'js/controllers/student/dashboard.js'
                           ]);
                     }]
                   }
@@ -83,7 +83,7 @@ angular.module('app')
                   resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load(['js/controllers/attendance.js']);
+                        return uiLoad.load(['js/controllers/student/attendance.js']);
                     }]
                   }
               })

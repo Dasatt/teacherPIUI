@@ -3,14 +3,18 @@
 /* Controllers */
 
 angular.module('app')
-  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', 
-    function(              $scope,   $translate,   $localStorage,   $window ) {
+  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', '$cookieStore','$http',
+    function(              $scope,   $translate,   $localStorage,   $window, $cookieStore ,$http ) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       isIE && angular.element($window.document.body).addClass('ie');
       isSmartDevice( $window ) && angular.element($window.document.body).addClass('smart');
 
       // config
+      if ($cookieStore.get('globals') != undefined){
+        $scope.user_data = $cookieStore.get('globals').currentUser;
+      }
+      
       $scope.app = {
         name: 'Teacher Pi',
         version: '1.0.0',
@@ -72,5 +76,22 @@ angular.module('app')
           // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
           return (/iPhone|iPod|iPad|Silk|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
       }
+      // //handle authorization header
+      // var teacherpi_cookie = ($cookieStore.get('teacherpi'));
+      // $http.defaults.headers.common.Authorization = "Token "+ teacherpi_cookie['user_token'];
+      // console.log(teacherpi_cookie['user_token'])
+      // $http.get(baseUrl+'student/user_details/').then(
+      //   function (success_response){
+      //     $scope.httpStatus = true;
+      //     console.log(success_response)
+      //     if (success_response.data){
+      //       //call an api here to get course data
+      //     }else {
+      //     }
+      //   },
+      //   function (error_response){
+      //     $scope.httpStatus = true;
+      //     console.log(error_response)
+      //   });
 
   }]);
