@@ -53,7 +53,8 @@ app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope',
                 });     
         }
 
-        factory.ClearCredentials = function ClearCredentials () {            
+        factory.ClearCredentials = function ClearCredentials () {
+            console.log('cleared')            
         	$rootScope.globals = {};
             $cookieStore.remove('globals');
             $http.defaults.headers.common.Authorization = 'Basic';
