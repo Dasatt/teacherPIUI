@@ -49,8 +49,8 @@
 
 /* Controllers */
   // signin controller
-app.controller('SigninFormController', ['$scope', '$http', '$state', 'AuthenticationService',
- function ($scope, $http, $state, AuthenticationService) {
+app.controller('SigninFormController', ['$scope', '$http', '$state', 'AuthenticationService','$stateParams',
+ function ($scope, $http, $state, AuthenticationService, $stateParams) {
     $scope.user = {};
     $scope.authError = null;
 
@@ -63,15 +63,33 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', 'Authentica
       $scope.alerts.splice(index, 1);
     };
 
+    if($stateParams.logout){
+      AuthenticationService.Logout();
+    }
+
     (function initController () {
       AuthenticationService.ClearCredentials();
     })();
+   
+    
     $scope.login = function(){
       AuthenticationService.Login($scope.user['username'], $scope.user['password'], 
         function(success_response){
           var token = success_response.token
-          AuthenticationService.SetCredentials($scope.user['username'], token);
-          $state.go('app.student.dashboard');
+          AuthenticationService.SetCredentials($scope.user['username'], token, function (response){
+            if (response == true){
+              $state.go('app2.instructor.dashboard');
+
+            }
+            else{
+              $state.go('app.student.dashboard');
+            }
+          },
+          function (response){
+            $scope.addAlert('danger', 'Server Error');
+          }
+          );
+          // $state.go('app.student.dashboard');
         },
         function(error_response){
            for (var i = $scope.alerts.length - 1; i >= 0; i--) {

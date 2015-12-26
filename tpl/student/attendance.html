@@ -17,21 +17,24 @@
   <div class="col-lg-3 col-md-4 col-sm-6" ng-show="activeClass">
       <div class="panel b-a">
         <div class="panel-heading text-center bg-success no-border">
-          <span class="text-u-c m-b-none font-bold">{{courseCode}}</span>          
+          <h4 class="text-center font-bold">{{course.course_code}}</h4>          
         </div>
         <div class="wrapper text-center b-b b-light">
           <span> Class Ends in: </span>
           <h3 class="m-t-none">
-            <span class="text-2x text-lt">Hr:Min:Sec</span>
+            <span class="text-2x text-lt">{{course.duration}}:Min:Sec</span>
           </h3>
         </div>
         <ul class="list-group text-center no-borders m-t-sm">
           <li class="list-group-item">
-            <i class="icon-check text-success m-r-xs"></i> Some other infor about the course, maybe course title for now sha 
+            <i class="icon-check text-success m-r-xs"></i> {{course.course_title}}<br> {{course.course_info}}
           </li>          
         </ul>
         <div class="panel-footer text-center">
-          <a href class="btn btn-success font-bold m ng-click=attend()">Attend</a>
+          <button href class="btn btn-success font-bold m" ng-click="attend()" ng-disabled="attended" >
+            <span class="text" ng-hide="loading">Attend</span>
+            <span class="text" ng-show="loading">Attending...</span></button>
+            <i class="fa fa-spin fa-spinner" ng-show="loading"  ng-class="{'fa-spin' : loading}"id="spin"></i>
         </div>
       </div>
   </div>

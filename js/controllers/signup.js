@@ -24,6 +24,7 @@ app.controller('SignupFormController', ['$scope', '$http', '$state', function($s
             $scope.closeAlert(i)
           };
           if (error_response.status == 500){
+            console.log(error_response.data)
             $scope.addAlert('danger','Server Error');
           }else if (error_response.status == 400) {
             for (var key in error_response.data){

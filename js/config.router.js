@@ -27,6 +27,9 @@ angular.module('app')
               .state('access.signin', {
                   url: '/signin',
                   templateUrl: 'tpl/signin.html',
+                  params:{
+                    logout:null
+                  },
                   resolve: {
                       deps: ['uiLoad',
                         function( uiLoad ){
@@ -100,13 +103,13 @@ angular.module('app')
               })
               .state('app2.instructor.dashboard', {
                   url: '/dashboard',
-                  templateUrl: 'tpl/instructor/student_dashboard.html',
+                  templateUrl: 'tpl/instructor/dashboard.html',
                   resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
                         return uiLoad.load([
                           'js/controllers/chart.js',
-                          'js/controllers/dashboard.js'
+                          'js/controllers/instructor/dashboard.js'
                           ]);
                     }]
                   }
@@ -114,10 +117,13 @@ angular.module('app')
               .state('app2.instructor.course', {
                   url: '/course',
                   templateUrl: 'tpl/instructor/course.html',
+                  params:{
+                    msg:null
+                  },
                   resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load(['js/controllers/course.js']);
+                        return uiLoad.load(['js/controllers/instructor/course.js']);
                     }]
                   }
               })
@@ -127,7 +133,21 @@ angular.module('app')
                   resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){
-                        return uiLoad.load(['js/controllers/attendance.js']);
+                        return uiLoad.load(['js/controllers/instructor/attendance.js']);
+                    }]
+                  }
+              })
+              .state('app2.instructor.course-create', {
+                  url: '/create',
+                  templateUrl: 'tpl/instructor/create-course.html',
+                  controller:'Course',
+                  params: {
+                        to_edit: null
+                  },
+                  resolve: {
+                    deps: ['uiLoad',
+                      function( uiLoad ){
+                        return uiLoad.load(['js/controllers/instructor/course.js']);
                     }]
                   }
               })

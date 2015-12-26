@@ -11,12 +11,12 @@ app.controller('Dashboard', ['$scope', '$http', '$state', '$cookieStore',functio
     $scope.closeAlert = function(index) {
       $scope.alerts.splice(index, 1);
     };
-    // console.log($cookieStore.get('globals'))
-   if ($cookieStore.get('globals') != undefined){
-      $scope.user_data = $cookieStore.get('globals').currentUser;
-      $http.defaults.headers.common['Authorization'] = 'Token ' + $scope.user_data.token;
+    if ($cookieStore.get('globals') != undefined){
+        $scope.user_data = $cookieStore.get('globals').currentUser;
+        $http.defaults.headers.common['Authorization'] = 'Token ' + $scope.user_data.token;
     }else{
       $state.go('access.signin');
-    }  
+    }
+       
 
   }]);

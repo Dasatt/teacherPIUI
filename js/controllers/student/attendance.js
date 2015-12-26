@@ -6,6 +6,8 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore'
     $scope.user_data = {}
     $scope.activeClass = false;
     $scope.httpStatus = false;
+    $scope.attended = false;
+    $scope.course={};
     $scope.alerts = [
       // { type: 'success', msg: 'Well done! You successfully read this important alert message.' },
       // { type: 'info', msg: 'Heads up! This alert needs your attention, but it is not super important.' },
@@ -24,49 +26,69 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore'
     if ($cookieStore.get('globals') != undefined){
         $scope.user_data = $cookieStore.get('globals').currentUser;
         $http.defaults.headers.common['Authorization'] = 'Token ' + $scope.user_data.token;
-        console.log($scope.user_data.token)
-    }    
+    }else{
+      $state.go('access.signin');
+    }
+        
     
-    // $scope.loadActiveClass = function () {
-    //   $http.get(baseUrl+'attendance/activeclass/').then(
-    //     function (success_response){
-    //       console.log(success_response)
-    //       $scope.httpStatus = true;
-    //       if (success_response.data){
-    //         $scope.activeClass = true;
-    //         $scope.courseCode = success_response.data;
-    //         //call an api here to get course data
-    //       }else {
-    //         $scope.addAlert('warning', 'No currently active classes');
-    //       }
-    //     },
-    //     function (error_response){
-    //       $scope.httpStatus = true;
-    //       $scope.addAlert('danger', 'Server Error');
-    //     });
-
-    // };
-
-    $scope.loadActiveClass = function(){
-      $http.get(baseUrl+'attendance/activeclass/')
-        .success(function (response){
-          $scope.httpStatus = true;          
-          $scope.addAlert('warning', response);
-
-        })
-        .error(function response(){
+    (function () {
+      $http.get(baseUrl+'attendance/activeclass/').then(
+        function (success_response){
+          $scope.httpStatus = true;
+          if (success_response.data != 'There is no active course!'){
+            $scope.activeClass = true;
+            $scope.course = success_response.data[0];
+          }else {
+            $scope.addAlert('warning', 'No currently active classes');
+          }
+        },
+        function (error_response){
           $scope.httpStatus = true;
           $scope.addAlert('danger', 'Server Error');
-
         });
 
-    };
-    $scope.loadActiveClass();
-
+    })();  
     $scope.attend = function (){
-        //call attend api for logged in student
+         $http({
+        method: 'POST',
+        url: baseUrl+'attendance/',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+          var str = [];
+        for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        return str.join("&");
+        },
+        data: {course_code: $scope.course.course_code, 
+                    matric_no: $scope.user_data.id_no,
+                    status:true,
+                    duration: $scope.course.duration
+                  }
+      })
+      .success(function (response){
+        for (var i = $scope.alerts.length - 1; i >= 0; i--) {
+            $scope.closeAlert(i);
+        };
+        $scope.addAlert('success','You have successfully marked attendance for this class')
+        $scope.loading = false;
+        $scope.attended = true;
+      })
+      .error(function (data,status,header){
+        for (var i = $scope.alerts.length - 1; i >= 0; i--) {
+            $scope.closeAlert(i);
+          };
+        if (data.detail){
+          $scope.addAlert('danger',data.detail)
+          $scope.loading = false;        
+        }
+        else{
+          $scope.addAlert('danger','Error marking attendance!')
+          $scope.loading = false;  
+          // console.log(data)      
 
-    };
+        }
+      });
+    }
 
     $scope.userHistory = function (){
       // get student history on classes attended, just for better user interaction

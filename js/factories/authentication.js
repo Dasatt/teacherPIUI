@@ -2,11 +2,7 @@ app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope',
 	function ($http, $cookieStore, $rootScope){
 		var factory = {};
         
-        factory.Login = function Login(username, password, success_callback, error_callback){
-        	// $http.post('/api/authenticate', { username: username, password: password })
-         //       .success(function (response) {
-         //           callback(response);
-         //       });
+        factory.Login = function Login(username, password, success_callback, error_callback){        
             $http.post(baseUrl+'student/login/', {'username': username, 'password':password})
             	.success(function (response){
             		success_callback(response);
@@ -14,12 +10,20 @@ app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope',
             	.error(function (response){
             		error_callback(response);
             	});
-
-
-
         }
 
-        factory.SetCredentials = function SetCredentials (username, token) {
+        factory.Logout = function Logout(){   
+            $http.delete(baseUrl+'student/logout/')
+                .success(function (response){
+                    factory.ClearCredentials()
+                })
+                .error(function (response){
+                                     
+                });
+        }
+
+
+        factory.SetCredentials = function SetCredentials (username, token, success_callback, error_callback) {
         	// $rootScope.globals = {
          //        currentUser: {
          //            username: username,
@@ -28,9 +32,9 @@ app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope',
          //    };
          //    $cookieStore.put('globals', $rootScope.globals);
             $http.defaults.headers.common['Authorization'] = 'Token ' + token;
-            $http.get(baseUrl+'student/user_details/')
+            $http.get(baseUrl+'student/userDetails/')
 	            .success(function (response){
-	            	var user_data = response[0]
+	            	var user_data = response
 	            	$rootScope.globals = {
 		                currentUser: {
 		                    username: username,
@@ -42,15 +46,18 @@ app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope',
 		                }
 	            	};
                     $cookieStore.put('globals', $rootScope.globals);
-	            });     
+                    success_callback(user_data['is_staff']);
+	            })
+                .error(function (response){
+                    error_callback(response);
+                });     
         }
 
-        factory.ClearCredentials = function ClearCredentials () {
+        factory.ClearCredentials = function ClearCredentials () {            
         	$rootScope.globals = {};
             $cookieStore.remove('globals');
             $http.defaults.headers.common.Authorization = 'Basic';
         }
-
         return factory;
 
 }])
