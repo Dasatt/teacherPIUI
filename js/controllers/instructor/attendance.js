@@ -61,6 +61,7 @@ app.controller('Attendance', ['$scope', '$http', '$state', '$cookieStore',functi
               $scope.closeAlert(i);
             };
             $scope.addAlert('danger', 'Error loading attendance list');
+            console.log(data)
             $scope.httpStatus1 = true;
           });
       }

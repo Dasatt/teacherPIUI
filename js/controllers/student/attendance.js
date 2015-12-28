@@ -84,7 +84,7 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore'
         else{
           $scope.addAlert('danger','Error marking attendance!')
           $scope.loading = false;  
-          // console.log(data)      
+          console.log(data)      
 
         }
       });

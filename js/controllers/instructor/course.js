@@ -20,7 +20,7 @@ app.controller('Course', ['$scope', '$http', '$state', '$cookieStore','$statePar
 
     if ($stateParams.to_edit){
       $scope.course = angular.fromJson($stateParams.to_edit);
-      update = true
+      update = true;
       loadCanTakeCourse($scope.course.course_code);
     };
     if ($stateParams.msg){
@@ -43,9 +43,9 @@ app.controller('Course', ['$scope', '$http', '$state', '$cookieStore','$statePar
 
     //**********create course************/
     $scope.createCourse = function(){
-      $scope.loading = true
+      $scope.loading = true;
       for (var i = $scope.alerts.length - 1; i >= 0; i--) {
-            $scope.closeAlert(i)
+            $scope.closeAlert(i);
       };
       if (update==true){
           $http({
@@ -70,7 +70,7 @@ app.controller('Course', ['$scope', '$http', '$state', '$cookieStore','$statePar
           $scope.loading = false;          
         });
 
-        }
+      }
       else{
         $http({
         method: 'POST',

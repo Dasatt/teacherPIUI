@@ -16,7 +16,12 @@
            <input type="password" placeholder="Password" class="form-control no-border" ng-model="user.password" required>
         </div>
       </div>
-      <button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="login()" ng-disabled='form.$invalid'>Log in</button>
+      <!-- <button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="login()" ng-disabled='form.$invalid'>Sign in</button> -->
+      <button type="submit" class="btn btn-lg btn-primary btn-block" ng-click="login()" ng-disabled='form.$invalid'>
+        <span class="text" ng-hide="loading">Sign in </span>
+        <span class="text" ng-show="loading">Signing in... </span> 
+        <i class="fa fa-spin fa-spinner" ng-show="loading"  ng-class="{'fa-spin' : loading}"id="spin"></i>
+      </button>
       <div class="text-center m-t m-b"><a ui-sref="access.forgotpwd">Forgot password?</a></div>
       <div class="line line-dashed"></div>
       <p class="text-center"><small>Do not have an account?</small></p>

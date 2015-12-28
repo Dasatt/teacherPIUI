@@ -73,8 +73,10 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', 'Authentica
    
     
     $scope.login = function(){
+      $scope.loading = true;
       AuthenticationService.Login($scope.user['username'], $scope.user['password'], 
         function(success_response){
+          $scope.loading = false;
           var token = success_response.token
           AuthenticationService.SetCredentials($scope.user['username'], token, function (response){
             if (response == true){
@@ -92,7 +94,8 @@ app.controller('SigninFormController', ['$scope', '$http', '$state', 'Authentica
           // $state.go('app.student.dashboard');
         },
         function(error_response){
-           for (var i = $scope.alerts.length - 1; i >= 0; i--) {
+          $scope.loading = false;
+          for (var i = $scope.alerts.length - 1; i >= 0; i--) {
             $scope.closeAlert(i)
           };
           if (error_response){

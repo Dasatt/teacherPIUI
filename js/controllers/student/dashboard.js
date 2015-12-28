@@ -15,7 +15,7 @@ app.controller('Dashboard', ['$scope', '$http', '$state', '$cookieStore',functio
    if ($cookieStore.get('globals') != undefined){
       $scope.user_data = $cookieStore.get('globals').currentUser;
       $http.defaults.headers.common['Authorization'] = 'Token ' + $scope.user_data.token;
-        console.log($scope.user_data)
+      // console.log($scope.user_data)
 
     }else{
       $state.go('access.signin');

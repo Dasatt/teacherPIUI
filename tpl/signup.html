@@ -43,8 +43,13 @@
                 </div>
               </div>             
             </div>
-            <footer class="panel-footer text-center bg-light lter">
-              <button type="submit" class="btn btn-success" ng-disabled="form.$invalid" ng-click="signUp()">Register</button>
+            <footer class="panel-footer text-center bg-light lter"><!-- 
+              <button type="submit" class="btn btn-success" ng-disabled="form.$invalid" ng-click="signUp()">Register</button> -->
+              <button type="submit" class="btn btn-success" ng-disabled="form.$invalid" ng-click="signUp()">
+                  <span class="text" ng-hide="loading">Register</span>
+                  <span class="text" ng-show="loading">Registering....</span> 
+                  <i class="fa fa-spin fa-spinner" ng-show="loading"  ng-class="{'fa-spin' : loading}"id="spin"></i>
+              </button>
               <div class="line line-dashed"></div>
                 <p class="text-center"><small>Do you have an account already?</small></p>
                 <button ui-sref="access.signin" class="btn btn-primary">Sign In</button>

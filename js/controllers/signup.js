@@ -13,9 +13,11 @@ app.controller('SignupFormController', ['$scope', '$http', '$state', function($s
     };
 
     $scope.signUp = function() {
+      $scope.loading = true;     
       $http.post(baseUrl+'student/register/', $scope.user).then(
         function (success_response){
           if (success_response.statusText == 'CREATED') {
+            $scope.loading = false;      
             $state.go('access.signin');
           }
         },
@@ -24,15 +26,18 @@ app.controller('SignupFormController', ['$scope', '$http', '$state', function($s
             $scope.closeAlert(i)
           };
           if (error_response.status == 500){
+            $scope.loading = false;                  
             console.log(error_response.data)
             $scope.addAlert('danger','Server Error');
           }else if (error_response.status == 400) {
+            $scope.loading = false;                  
             for (var key in error_response.data){
               for (var item in error_response.data[key]){
                 $scope.addAlert('danger',error_response.data[key][item]);
               }
             }
-          } else{
+          }else{
+            $scope.loading = false;                  
             $scope.addAlert('danger','Ooops! something went wrong. Please retry');
           };        
         });
