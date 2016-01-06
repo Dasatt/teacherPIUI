@@ -44,17 +44,20 @@ app.controller('Attendance', ['$scope', '$http', '$state', '$cookieStore',functi
       if (code != undefined){
          $http.get(baseUrl+'attendance/attendance_list/'+code+'/')
           .success(function (response) {
-            console.log(response)
+            // console.log(response)
             for (var i = $scope.alerts.length - 1; i >= 0; i--) {
               $scope.closeAlert(i);
             };
             $scope.students= response;
+            $scope.count = $scope.students.length
+            console.log($scope.students)            
             $scope.httpStatus2 = true;
             if ($scope.students.length == 0){
               $scope.addAlert('warning','No student data found for this class!');
+              $scope.found2 = false;
               return;
             }
-            $scope.found = true;
+            $scope.found2 = true;
           })
           .error(function (data, status, headers){
             for (var i = $scope.alerts.length - 1; i >= 0; i--) {

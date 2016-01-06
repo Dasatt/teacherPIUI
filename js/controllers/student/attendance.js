@@ -69,7 +69,13 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore'
         for (var i = $scope.alerts.length - 1; i >= 0; i--) {
             $scope.closeAlert(i);
         };
-        $scope.addAlert('success','You have successfully marked attendance for this class')
+        if (response.success){
+          $scope.addAlert('success','You have successfully marked attendance for this class')
+        }
+        else{
+          $scope.addAlert('danger','You can only mark attendance once')
+        }        
+        console.log(response)
         $scope.loading = false;
         $scope.attended = true;
       })
