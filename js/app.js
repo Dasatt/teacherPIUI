@@ -15,5 +15,6 @@ angular.module('app', [
     'ui.validate',
     'oc.lazyLoad',
     'uiSwitch',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'ngCsv'
 ]);

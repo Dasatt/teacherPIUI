@@ -49,8 +49,13 @@ app.controller('Attendance', ['$scope', '$http', '$state', '$cookieStore',functi
               $scope.closeAlert(i);
             };
             $scope.students= response;
+            $scope.exportData = [];
+            for (var student in $scope.students) {
+              $scope.exportData.push({matric_no: $scope.students[student]['matric_no'], 
+                                              date: $scope.students[student]['date'],
+                                              time: $scope.students[student]['time']})
+            }
             $scope.count = $scope.students.length
-            console.log($scope.students)            
             $scope.httpStatus2 = true;
             if ($scope.students.length == 0){
               $scope.addAlert('warning','No student data found for this class!');
@@ -64,14 +69,12 @@ app.controller('Attendance', ['$scope', '$http', '$state', '$cookieStore',functi
               $scope.closeAlert(i);
             };
             $scope.addAlert('danger', 'Error loading attendance list');
-            console.log(data)
             $scope.httpStatus1 = true;
           });
-      }
-     
-
-    }   
-
+      }    
+    }
+    $scope.getHeader = function () {return ['matric_no', 'date', 'time']};
+    
 
 
 }]);
