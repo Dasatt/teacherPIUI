@@ -104,6 +104,9 @@ angular.module('app')
               .state('app2.instructor.dashboard', {
                   url: '/dashboard',
                   templateUrl: 'tpl/instructor/dashboard.html',
+                  params: {
+                        user: null
+                  },
                   resolve: {
                     deps: ['uiLoad',
                       function( uiLoad ){

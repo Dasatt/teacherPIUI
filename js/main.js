@@ -3,16 +3,21 @@
 /* Controllers */
 
 angular.module('app')
-  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', '$cookieStore','$http',
-    function(              $scope,   $translate,   $localStorage,   $window, $cookieStore ,$http ) {
+  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', '$cookieStore','$timeout',
+    function(              $scope,   $translate,   $localStorage,   $window, $cookieStore ,$timeout ) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       isIE && angular.element($window.document.body).addClass('ie');
       isSmartDevice( $window ) && angular.element($window.document.body).addClass('smart');
+      console.log('loaded')
 
       // config
       if ($cookieStore.get('globals') != undefined){
-        $scope.user_data = $cookieStore.get('globals').currentUser;
+        var data = function (){
+          $scope.user_data = $cookieStore.get('globals').currentUser;
+        }
+        $timeout(data,2000)
+
       }
       
       $scope.app = {
