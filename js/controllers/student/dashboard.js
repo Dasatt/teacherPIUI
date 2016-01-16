@@ -24,23 +24,6 @@ app.controller('Dashboard', ['$scope', '$http', '$state', '$cookieStore',functio
 
     }else{
       $state.go('access.signin');
-    }  
-     $http.get(baseUrl+'course/')
-      .success(function (response) {
-        for (var i = $scope.alerts.length - 1; i >= 0; i--) {
-            $scope.closeAlert(i);
-          };
-        $scope.courses= response;
-        $scope.httpStatus1 = true;
-        if ($scope.courses.length == 0){
-          $scope.addAlert('warning','No registered courses found!');
-          return;
-        }
-        $scope.found = true;
-      })
-      .error(function (data, status, headers){
-        $scope.addAlert('danger', 'Error loading course list');
-        $scope.httpStatus1 = true;
-      });
+    }      
 
   }]);

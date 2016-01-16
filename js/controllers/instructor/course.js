@@ -10,6 +10,7 @@ app.controller('Course', ['$scope', '$http', '$state', '$cookieStore','$statePar
     $scope.numbers="";
     $scope.started = false;
 
+    console.log($location.path())
 
     $scope.addAlert = function(type,message) {
       $scope.alerts.push({type: type, msg: message});

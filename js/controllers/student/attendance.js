@@ -38,6 +38,8 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore'
           if (success_response.data != 'There is no active course!'){
             $scope.activeClass = true;
             $scope.course = success_response.data[0];
+            var course_code =$scope.course.course_code
+            time_left(course_code)
           }else {
             $scope.addAlert('warning', 'No currently active classes');
           }
@@ -47,7 +49,24 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore'
           $scope.addAlert('danger', 'Server Error');
         });
 
-    })();  
+    })();
+
+    function time_left (course_code){
+      $http.get(baseUrl+'course/time_left/')
+      .success( function (response){
+        console.log(response)
+
+      })
+      .error(function (response){
+        console.log('error')
+        console.log(response)
+
+      });
+
+    }
+
+
+
     $scope.attend = function (){
          $http({
         method: 'POST',
@@ -75,7 +94,6 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore'
         else{
           $scope.addAlert('danger','You can only mark attendance once')
         }        
-        console.log(response)
         $scope.loading = false;
         $scope.attended = true;
       })

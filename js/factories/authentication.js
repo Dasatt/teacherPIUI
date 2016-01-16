@@ -1,6 +1,7 @@
 app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope', 
 	function ($http, $cookieStore, $rootScope){
 		var factory = {};
+        this.role = "student";
         
         factory.Login = function Login(username, password, success_callback, error_callback){        
             $http.post(baseUrl+'student/login/', {'username': username, 'password':password})
@@ -46,6 +47,9 @@ app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope',
 		                }
 	            	};
                     $cookieStore.put('globals', $rootScope.globals);
+                    if (user_data['is_staff']){
+                        this.role = 'staff'
+                    }
                     success_callback(user_data['is_staff']);
 	            })
                 .error(function (response){
@@ -58,6 +62,10 @@ app.factory('AuthenticationService', ['$http', '$cookieStore', '$rootScope',
             $cookieStore.remove('globals');
             $http.defaults.headers.common.Authorization = 'Basic';
         }
+        factory.GetPermissions = function GetPermissions (){
+            return this.role;
+        }
+
         return factory;
 
 }])

@@ -58,7 +58,13 @@ angular.module('app')
               .state('app', {
                   abstract: true,
                   url: '/app',
-                  templateUrl: 'tpl/app.html'
+                  templateUrl: 'tpl/app.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad){
+                          return $ocLazyLoad.load('js/aside.js');
+                      }]
+                  }
               })
               .state('app.student', {
                   url: '/student',
@@ -76,8 +82,17 @@ angular.module('app')
                         return uiLoad.load([
                           'js/controllers/chart.js',
                           'js/controllers/student/dashboard.js'
+                          // 'js/aside.js'
                           ]);
-                    }]
+                    }],
+                    // check:function(AuthenticationService,$location){ // still figuring out how to make this work on the top level routes so i dont have to replicate for every url
+                    //       if(AuthenticationService.GetPermissions() == 'student'){ 
+                            
+                    //       }else{
+                    //         $location.path('/app/instructor/dashboard');        
+                    //         alert("You don't have access to this page");
+                    //       }
+                    //     }
                   }
               })
               .state('app.student.attendance', {
