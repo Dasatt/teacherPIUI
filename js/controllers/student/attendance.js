@@ -2,7 +2,7 @@
 
 /* Controllers */
   // signin controller
-app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore', function($scope, $http, $state, $cookieStore) {
+app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore','$timeout', function($scope, $http, $state, $cookieStore,$timeout) {
     $scope.user_data = {}
     $scope.activeClass = false;
     $scope.httpStatus = false;
@@ -14,6 +14,9 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore'
       // { type: 'warning', msg: 'Warning! Best check yo self, you are not looking too good...' }
       // { type: 'danger', msg: 'Danger! Best check yo self, you are bad.' }
     ];
+    $scope.hr = 0;
+    $scope.min = 0;
+    $scope.secs = 0;
 
     $scope.addAlert = function(type,message) {
       $scope.alerts.push({type: type, msg: message});
@@ -54,12 +57,29 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore'
     function time_left (course_code){
       $http.get(baseUrl+'course/time_left/'+course_code+'/')
       .success( function (response){
-        console.log(response)
+        var duration = response;
+        var CountDown = function(){
+          duration--;
+          $scope.hr = 0;
+          $scope.secs = duration % 60;
+          $scope.min = Math.floor(duration/60);
+          if ($scope.min >=60){
+            $scope.hr = Math.floor($scope.min/60);
+            $scope.min = $scope.min%60;
+          }
+          if (duration == 0){
+            $timeout.cancel(myCountDown);            
+          }else{
+            myCountDown = $timeout(CountDown, 1000)
+          }
+        }       
+        
+        var myCountDown = $timeout(CountDown, 1000)
 
       })
       .error(function (response){
-        console.log('error')
-        console.log(response)
+        $scope.addAlert('danger','Error fetching time left to end class!')
+        
 
       });
 
