@@ -1,12 +1,19 @@
 'use strict';
 /* Controllers */
 angular.module('app')
-  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window',
-    function(              $scope,   $translate,   $localStorage,   $window) {
+  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window','$cookieStore','$timeout',
+    function(              $scope,   $translate,   $localStorage,   $window, $cookieStore, $timeout) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       isIE && angular.element($window.document.body).addClass('ie');
       isSmartDevice( $window ) && angular.element($window.document.body).addClass('smart');
+      // if ($cookieStore.get('globals') != undefined){
+      // $scope.user_data = $cookieStore.get('globals').currentUser;
+      //   var data = function (){
+      //     $scope.user_data = $cookieStore.get('globals').currentUser;
+      //   }
+      //   $timeout(data,2000)
+      // }
       // config          
       $scope.app = {
         name: 'Teacher Pi',

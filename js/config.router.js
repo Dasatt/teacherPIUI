@@ -62,7 +62,7 @@ angular.module('app')
                   resolve: {
                       deps: ['$ocLazyLoad',
                         function( $ocLazyLoad){
-                          return $ocLazyLoad.load('js/aside.js');
+                          return $ocLazyLoad.load('js/controllers/aside.js');
                       }]
                   }
               })
@@ -109,7 +109,13 @@ angular.module('app')
               .state('app2', {
                   abstract: true,
                   url: '/app',
-                  templateUrl: 'tpl/instructor/app.html'
+                  templateUrl: 'tpl/instructor/app.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                        function( $ocLazyLoad){
+                          return $ocLazyLoad.load('js/controllers/aside.js');
+                      }]
+                  }
               })
 
               .state('app2.instructor', {
@@ -158,7 +164,6 @@ angular.module('app')
               .state('app2.instructor.course-create', {
                   url: '/create',
                   templateUrl: 'tpl/instructor/create-course.html',
-                  controller:'Course',
                   params: {
                         to_edit: null
                   },
@@ -166,6 +171,16 @@ angular.module('app')
                     deps: ['uiLoad',
                       function( uiLoad ){
                         return uiLoad.load(['js/controllers/instructor/course.js']);
+                    }]
+                  }
+              })
+              .state('app2.instructor.quiz', {
+                  url: '/quiz',
+                  templateUrl: '',                  
+                  resolve: {
+                    deps: ['uiLoad',
+                      function( uiLoad ){
+                        return uiLoad.load(['']);
                     }]
                   }
               })

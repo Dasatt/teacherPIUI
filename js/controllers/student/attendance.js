@@ -52,7 +52,7 @@ app.controller('studentAttendance', ['$scope', '$http', '$state', '$cookieStore'
     })();
 
     function time_left (course_code){
-      $http.get(baseUrl+'course/time_left/')
+      $http.get(baseUrl+'course/time_left/'+course_code+'/')
       .success( function (response){
         console.log(response)
 

@@ -10,7 +10,6 @@ app.controller('Course', ['$scope', '$http', '$state', '$cookieStore','$statePar
     $scope.numbers="";
     $scope.started = false;
 
-    console.log($location.path())
 
     $scope.addAlert = function(type,message) {
       $scope.alerts.push({type: type, msg: message});
@@ -32,7 +31,7 @@ app.controller('Course', ['$scope', '$http', '$state', '$cookieStore','$statePar
     if ($cookieStore.get('globals') != undefined){
         $scope.user_data = $cookieStore.get('globals').currentUser;
         $http.defaults.headers.common['Authorization'] = 'Token ' + $scope.user_data.token;
-        // console.log($http.defaults.headers.common['Authorization'])
+        console.log($http.defaults.headers.common['Authorization'])
     }else{
       $state.go('access.signin');
     }
