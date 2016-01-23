@@ -1,8 +1,8 @@
 'use strict';
 /* Controllers */
 angular.module('app')
-  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window','$cookieStore','$timeout',
-    function(              $scope,   $translate,   $localStorage,   $window, $cookieStore, $timeout) {
+  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window','$cookieStore','$timeout','$state',
+    function(              $scope,   $translate,   $localStorage,   $window, $cookieStore, $timeout,$state) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       isIE && angular.element($window.document.body).addClass('ie');
@@ -14,6 +14,17 @@ angular.module('app')
       //   }
       //   $timeout(data,2000)
       // }
+
+      // if ($cookieStore.get('globals') != undefined){
+      // var user_data = $cookieStore.get('globals').currentUser;
+      // console.log(user_data)
+      //   if (user_data['is_staff']){
+      //     $state.go('app2.instructor.dashboard');
+      //   }else{
+      //     $state.go('app.student.dashboard');
+      //   }        
+      // }      
+
       // config          
       $scope.app = {
         name: 'Teacher Pi',

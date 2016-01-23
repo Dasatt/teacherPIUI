@@ -3,7 +3,7 @@ app.controller('Attendance', ['$scope', '$http', '$state', '$cookieStore',functi
     $scope.alerts = [];
     $scope.courses = {};
     $scope.httpStatus1 = false;
-    $scope.httpStatus2 = false;
+    $scope.httpStatus2 = true;
     $scope.found = false;
     $scope.found2 = false;    
 
@@ -40,6 +40,7 @@ app.controller('Attendance', ['$scope', '$http', '$state', '$cookieStore',functi
       });
 
     $scope.loadList = function(code){
+      $scope.httpStatus2 = false;
       //code not done
       if (code != undefined){
          $http.get(baseUrl+'attendance/attendance_list/'+code+'/')
