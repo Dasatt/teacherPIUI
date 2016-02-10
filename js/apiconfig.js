@@ -1,1 +1,1 @@
-var baseUrl = "http://192.168.1.125:8080/";
+var baseUrl = "http://localhost:8080/";
